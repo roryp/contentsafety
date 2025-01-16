@@ -37,7 +37,7 @@ public class ContentSafetyCustomCategorySampleCode {
         requestBody.put("text", text);
         requestBody.put("categoryName", customCategoryName);
         requestBody.put("version", customCategoryVersion);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody.toString());
+        RequestBody body = RequestBody.create(requestBody.toString(), MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
                 .url(analyzeApiUrl)
