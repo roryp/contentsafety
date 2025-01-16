@@ -31,12 +31,5 @@ To run the code, use the following command:
 mvn exec:java -Dexec.mainClass="com.microsoft.cognitiveservices.ContentSafetyCustomCategorySampleCode"
 ```
 
-### Dependencies
+For more details and tutorials, please visit the [Azure AI Content Safety blog post](https://techcommunity.microsoft.com/blog/azure-ai-services-blog/announcing-custom-categories-public-preview-in-azure-ai-content-safety/4147024).
 
-The project requires the following dependencies:
-- `com.squareup.okhttp3:okhttp:4.9.3`
-- `org.json:json:20210307`
-
-### Contributing and Reporting Issues
-
-If you would like to contribute to the project or report any issues, please open an issue or submit a pull request on the [GitHub repository](https://github.com/roryp/contentsafety).
