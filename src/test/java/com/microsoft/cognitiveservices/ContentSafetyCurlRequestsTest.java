@@ -2,11 +2,10 @@ package com.microsoft.cognitiveservices;
 
 import okhttp3.*;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContentSafetyCurlRequestsTest {
 
@@ -32,6 +31,9 @@ public class ContentSafetyCurlRequestsTest {
         return client.newCall(request).execute();
     }
 
+    /*
+    {"userPromptAnalysis":{"attackDetected":true},"documentsAnalysis":[{"attackDetected":true}]}
+    */
     @Test
     public void testShieldPrompt() throws IOException {
         String url = endpoint + "/contentsafety/text:shieldPrompt?api-version=2024-09-01";
@@ -42,9 +44,15 @@ public class ContentSafetyCurlRequestsTest {
         });
 
         Response response = executeRequest(url, requestBody);
+        String body = response.body().string();
+        System.out.println(body);
+        response.close();
         assertEquals(200, response.code());
     }
 
+    /*
+    {"ungroundedDetected":true,"ungroundedPercentage":1,"ungroundedDetails":[{"text":"12/hour","offset":{"utf8":0,"utf16":0,"codePoint":0},"length":{"utf8":7,"utf16":7,"codePoint":7}}]}
+    */
     @Test
     public void testDetectGroundedness() throws IOException {
         String url = endpoint + "/contentsafety/text:detectGroundedness?api-version=2024-09-15-preview";
@@ -61,9 +69,15 @@ public class ContentSafetyCurlRequestsTest {
         requestBody.put("reasoning", false);
 
         Response response = executeRequest(url, requestBody);
+        String body = response.body().string();
+        System.out.println(body);
+        response.close();
         assertEquals(200, response.code());
     }
 
+    /*
+    {"protectedMaterialAnalysis":{"detected":true}}
+    */
     @Test
     public void testDetectProtectedMaterial() throws IOException {
         String url = endpoint + "/contentsafety/text:detectProtectedMaterial?api-version=2024-09-01";
@@ -71,9 +85,15 @@ public class ContentSafetyCurlRequestsTest {
         requestBody.put("text", "Kiss me out of the bearded barley Nightly beside the green, green grass Swing, swing, swing the spinning step You wear those shoes and I will wear that dress Oh, kiss me beneath the milky twilight Lead me out on the moonlit floor Lift your open hand Strike up the band and make the fireflies dance Silver moon's sparkling So, kiss me Kiss me down by the broken tree house Swing me upon its hanging tire Bring, bring, bring your flowered hat We'll take the trail marked on your father's map.");
 
         Response response = executeRequest(url, requestBody);
+        String body = response.body().string();
+        System.out.println(body);
+        response.close();
         assertEquals(200, response.code());
     }
 
+    /*
+    {"protectedMaterialAnalysis":{"detected":true,"codeCitations":[{"license":"NOASSERTION","sourceUrls":["https://github.com/kolejny-projekt-z-kck/game-/tree/f134099ce970da951bac9baac83c7885e991c676/ganeee.py","https://github.com/Felipe-Velasco/Modulo-Pygame/tree/11490c44a951812dc0c6424b68b1e14fc5cc4c0b/pygame%20basics.py","https://github.com/bwootton/firstgame/tree/70d722a6b1ccb79bfa56d9cc69932051848c44bf/jump.py","https://github.com/Jason017/Pygame-Learning-Module/tree/17cd69f169d3759e00816ed4a3795dd6db7e157f/pygameModule02.py","https://github.com/Coders-Brothers/pygame-tutorial/tree/1b481f5687cdda7c0765089780ef451af6e175cd/lesson-2.py"]}]}
+    */
     @Test
     public void testDetectProtectedMaterialForCode() throws IOException {
         String url = endpoint + "/contentsafety/text:detectProtectedMaterialForCode?api-version=2024-09-15-preview";
@@ -81,9 +101,15 @@ public class ContentSafetyCurlRequestsTest {
         requestBody.put("code", "python import pygame pygame.init() win = pygame.display.set_mode((500, 500)) pygame.display.set_caption(My Game) x = 50 y = 50 width = 40 height = 60 vel = 5 run = True while run: pygame.time.delay(100) for event in pygame.event.get(): if event.type == pygame.QUIT: run = False keys = pygame.key.get_pressed() if keys[pygame.K_LEFT] and x > vel: x -= vel if keys[pygame.K_RIGHT] and x < 500 - width - vel: x += vel if keys[pygame.K_UP] and y > vel: y -= vel if keys[pygame.K_DOWN] and y < 500 - height - vel: y += vel win.fill((0, 0, 0)) pygame.draw.rect(win, (255, 0, 0), (x, y, width, height)) pygame.display.update() pygame.quit()");
 
         Response response = executeRequest(url, requestBody);
+        String body = response.body().string();
+        System.out.println(body);
+        response.close();
         assertEquals(200, response.code());
     }
 
+    /*
+    {"blocklistsMatch":[],"categoriesAnalysis":[{"category":"Hate","severity":2},{"category":"Sexual","severity":0},{"category":"SelfHarm","severity":0},{"category":"Violence","severity":0}]}
+    */
     @Test
     public void testAnalyze() throws IOException {
         String url = endpoint + "/contentsafety/text:analyze?api-version=2024-09-01";
@@ -94,6 +120,9 @@ public class ContentSafetyCurlRequestsTest {
         requestBody.put("outputType", "FourSeverityLevels");
 
         Response response = executeRequest(url, requestBody);
+        String body = response.body().string();
+        System.out.println(body);
+        response.close();
         assertEquals(200, response.code());
     }
 }
