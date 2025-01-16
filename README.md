@@ -16,3 +16,9 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+## Using Azure Content Safety Custom Categories
+
+This project includes a sample file `survival-advice.jsonl` which contains various survival tips. This file can be used as training data for creating custom content categories using Azure Content Safety.
+
+For detailed instructions on how to create and train custom content categories, refer to the [Azure Content Safety quickstart guide](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-custom-categories).
