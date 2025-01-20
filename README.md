@@ -1,3 +1,5 @@
+![Tai](tai.mp4)
+
 ## Getting Started
 
 ### Project Setup
