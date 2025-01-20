@@ -47,14 +47,6 @@ This project is designed to help users create and test custom content categories
 - Configuring environment variables for Azure Content Safety.
 - Running the provided sample code to analyze text using custom content categories.
 
-## Contributing
+## Content Safety Studio
 
-We welcome contributions to this project! To contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Make your changes and commit them with descriptive messages.
-4. Push your changes to your forked repository.
-5. Create a pull request to the main repository.
-
-Please ensure your code follows the project's coding standards and includes appropriate tests.
+https://contentsafety.cognitive.azure.com/
