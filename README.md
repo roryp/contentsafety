@@ -1,6 +1,5 @@
-<video controls>
-  <source src="tai.mp4" type="video/mp4" />
-</video>
+[![Video Preview](thumbnail.jpg)](tai.mp4)
+
 
 ## Getting Started
 
