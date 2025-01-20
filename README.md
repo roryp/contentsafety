@@ -1,4 +1,6 @@
-![Tai](tai.mp4)
+<video controls>
+  <source src="tai.mp4" type="video/mp4" />
+</video>
 
 ## Getting Started
 
