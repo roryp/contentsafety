@@ -1,5 +1,4 @@
-[![Video Preview](thumbnail.jpg)](tai.mp4)
-
+[![Video Preview](tai.jpg)](tai.mp4)
 
 ## Getting Started
 
