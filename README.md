@@ -1,4 +1,5 @@
 [![Video Preview](tai.jpg)](tai.mp4)
+![Slides](Responsible_ai.pdf)
 
 ## Getting Started
 
