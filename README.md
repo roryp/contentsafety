@@ -1,5 +1,7 @@
 [![Video Preview](tai.jpg)](tai.mp4)
-![Slides](Responsible_ai.pdf)
+
+## Slides
+For more information, refer to the slides: [Responsible_ai.pdf](Responsible_ai.pdf)
 
 ## Getting Started
 
