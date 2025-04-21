@@ -18,35 +18,45 @@ For more information, refer to the slides: [Responsible_ai.pdf](Responsible_ai.p
    mvn install
    ```
 
-## Using Azure Content Safety Custom Categories
+## Using Model Context Protocol (MCP) with Calculator Services
 
-A sample file `survival-advice.jsonl` is included for training and testing custom content categories in Azure Content Safety. To learn how to create and train custom categories, see the [Azure Content Safety quickstart guide](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-custom-categories).
+This project demonstrates how to use Model Context Protocol (MCP) to call calculator services from LangChain4j. The implementation uses a local MCP server running on port 8080 to provide calculator operations.
 
 ### Configuring Environment Variables
 
-Set the `CONTENT_SAFETY_SUBSCRIPTION_KEY` environment variable:
+Set the `GITHUB_TOKEN` environment variable for GitHub models authentication:
 ```sh
-export CONTENT_SAFETY_SUBSCRIPTION_KEY=<your_subscription_key>
+export GITHUB_TOKEN=<your_github_token>
 ```
+
+For content safety features, set:
+```sh
+export CONTENT_SAFETY_ENDPOINT=<your_content_safety_endpoint>
+export CONTENT_SAFETY_KEY=<your_content_safety_key>
+```
+
+### Starting the Calculator MCP Server
+
+Before running the client, start the calculator MCP server in SSE mode on localhost:8080.
 
 ### Usage Instructions
 
-To run the code, use the following command:
+To run the MCP client, use the following command:
 ```sh
-mvn exec:java -Dexec.mainClass="com.microsoft.cognitiveservices.ContentSafetyCustomCategorySampleCode"
+mvn exec:java
 ```
 
-For more details and tutorials, please visit the [Azure AI Content Safety blog post](https://techcommunity.microsoft.com/blog/azure-ai-services-blog/announcing-custom-categories-public-preview-in-azure-ai-content-safety/4147024).
+The default main class is configured as `com.microsoft.cognitiveservices.LangChain4jClient`.
 
 ## Project Description
 
-This project is designed to help users create and test custom content categories using Azure Content Safety. The main features of the project include:
+This project demonstrates the integration of Model Context Protocol (MCP) with LangChain4j to call calculator services. Key features include:
 
-- Training custom content categories using sample data.
-- Testing custom content categories with various text inputs.
-- Configuring environment variables for Azure Content Safety.
-- Running the provided sample code to analyze text using custom content categories.
+- Using MCP to connect to a calculator service for basic math operations
+- Content safety checking on prompts before processing
+- Integration with GitHub's gpt-4.1-nano model via LangChain4j
+- Using Server-Sent Events (SSE) for MCP transport
 
-## Content Safety Studio
+## Content Safety Integration
 
-https://contentsafety.cognitive.azure.com/
+The project includes content safety features to check prompts before processing, ensuring that only safe content is sent to the model. Prompts are analyzed for harmful content categories such as hate speech, violence, self-harm, and sexual content.
