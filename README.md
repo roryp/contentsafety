@@ -48,3 +48,32 @@ This project demonstrates the integration of Model Context Protocol (MCP) with L
 ## Content Safety Integration
 
 The project includes content safety features to check prompts before processing, ensuring that only safe content is sent to the model. Prompts are analyzed for harmful content categories such as hate speech, violence, self-harm, and sexual content.
+
+## Web Client
+
+The application includes a user-friendly web interface that allows users to interact with the Content Safety Calculator system:
+
+### Web Interface Features
+
+- Simple, intuitive form for entering calculation prompts
+- Content safety validation before processing user inputs
+- Real-time feedback on prompt safety
+- Clean, responsive design that works on various devices
+- Example safe prompts to guide users
+
+### Using the Web Client
+
+1. Start the application:
+   ```sh
+   mvn spring-boot:run
+   ```
+
+2. Open your browser and navigate to `http://localhost:8080`
+
+3. Enter a calculation prompt in the provided text area (e.g., "Calculate the sum of 24.5 and 17.3")
+
+4. Click "Submit" to process your request
+
+5. View the results, which will include both content safety analysis and calculation results
+
+The web client automatically handles the content safety verification process before passing your prompt to the calculator service, ensuring all interactions are safe and appropriate.
