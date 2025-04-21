@@ -39,15 +39,6 @@ export CONTENT_SAFETY_KEY=<your_content_safety_key>
 
 Before running the client, start the calculator MCP server in SSE mode on localhost:8080.
 
-### Usage Instructions
-
-To run the MCP client, use the following command:
-```sh
-mvn exec:java
-```
-
-The default main class is configured as `com.microsoft.cognitiveservices.LangChain4jClient`.
-
 ## Project Description
 
 This project demonstrates the integration of Model Context Protocol (MCP) with LangChain4j to call calculator services. Key features include:
