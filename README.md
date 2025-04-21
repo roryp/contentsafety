@@ -1,8 +1,5 @@
 [![Video Preview](tai.jpg)](tai.mp4)
 
-## Slides
-For more information, refer to the slides: [Responsible_ai.pdf](Responsible_ai.pdf)
-
 ## Getting Started
 
 ### Project Setup
