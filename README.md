@@ -17,7 +17,7 @@
 
 ## Using Model Context Protocol (MCP) with Calculator Services
 
-This project demonstrates how to use Model Context Protocol (MCP) to call calculator services from LangChain4j. The implementation uses a local MCP server running on port 8080 to provide calculator operations.
+This project demonstrates how to use Model Context Protocol (MCP) to call calculator MCP services from LangChain4j. The implementation uses a local MCP server running on port 8080 to provide calculator operations.
 
 ### Configuring Environment Variables
 
@@ -68,7 +68,7 @@ The application includes a user-friendly web interface that allows users to inte
    mvn spring-boot:run
    ```
 
-2. Open your browser and navigate to `http://localhost:8080`
+2. Open your browser and navigate to `http://localhost:8087`
 
 3. Enter a calculation prompt in the provided text area (e.g., "Calculate the sum of 24.5 and 17.3")
 
@@ -76,4 +76,4 @@ The application includes a user-friendly web interface that allows users to inte
 
 5. View the results, which will include both content safety analysis and calculation results
 
-The web client automatically handles the content safety verification process before passing your prompt to the calculator service, ensuring all interactions are safe and appropriate.
+The web client automatically handles the content safety verification process before passing your prompt to the calculator MCP service, ensuring all interactions are safe and appropriate.
