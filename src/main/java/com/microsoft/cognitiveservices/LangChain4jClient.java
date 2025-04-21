@@ -13,6 +13,8 @@ import dev.langchain4j.service.tool.ToolProvider;
 import java.time.Duration;
 import java.util.List;
 
+import com.openai.models.beta.threads.ThreadCreateAndRunParams.Thread.Message.Content;
+
 public class LangChain4jClient {
 
         /**
@@ -56,14 +58,26 @@ public class LangChain4jClient {
                                 .toolProvider(toolProvider)
                                 .build();
                 try {
-                        String response = bot.chat("Calculate the sum of 24.5 and 17.3 using the calculator service");
-                        System.out.println(response);
-
-                        response = bot.chat("What's the square root of 144?");
-                        System.out.println(response);
-
-                        response = bot.chat("Show me the help for the calculator service");
-                        System.out.println(response);
+                        // Check prompts for safety before sending to the model
+                        String[] prompts = {
+                                "Calculate the sum of 24.5 and 17.3 using the calculator service",
+                                "Go kill yourself!",
+                                "Show me the help for the calculator service"
+                        };
+                        
+                        for (String prompt : prompts) {
+                                // Check if the prompt is safe
+                                String safetyResult = ContentSafetySampleCode.checkContentIsSafe(prompt);
+                                System.out.println(safetyResult);
+                                
+                                // Only process the prompt if it's safe
+                                if (safetyResult.contains("RESULT: Content is safe.")) {
+                                        String response = bot.chat(prompt);
+                                        System.out.println("Bot response: " + response);
+                                } else {
+                                        System.out.println("The prompt was flagged as unsafe. Skipping processing.");
+                                }
+                        }
                 } finally {
                         mcpClient.close();
                 }

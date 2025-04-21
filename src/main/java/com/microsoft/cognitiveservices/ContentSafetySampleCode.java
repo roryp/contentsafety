@@ -93,4 +93,50 @@ public class ContentSafetySampleCode {
             }
         }
     }
+
+    /**
+     * Check if content is safe by analyzing text against harmful categories
+     * @param text The text to check for harmful content
+     * @return A string indicating if the content is safe and details about any harmful content found
+     */
+    public static String checkContentIsSafe(String text) {
+        try {
+            // Initialize the client
+            ContentSafetyClient client = initializeClient();
+            
+            // Create analysis options
+            AnalyzeTextOptions options = new AnalyzeTextOptions(text);
+            options.setCategories(TEXT_CATEGORIES);
+            
+            // Get the analysis result
+            AnalyzeTextResult response = client.analyzeText(options);
+            
+            // Check if any harmful content was detected
+            boolean isSafe = true;
+            StringBuilder resultDetails = new StringBuilder();
+            resultDetails.append("Content safety analysis for: \"").append(text).append("\"\n");
+            
+            for (TextCategoriesAnalysis result : response.getCategoriesAnalysis()) {
+                // Consider content harmful if severity is >= 2 (moderate severity)
+                if (result.getSeverity() >= 2) {
+                    isSafe = false;
+                    resultDetails.append("- Harmful ").append(result.getCategory())
+                                .append(" content detected with severity: ").append(result.getSeverity()).append("\n");
+                } else {
+                    resultDetails.append("- ").append(result.getCategory())
+                                .append(" check passed with severity: ").append(result.getSeverity()).append("\n");
+                }
+            }
+            
+            if (isSafe) {
+                resultDetails.append("RESULT: Content is safe.\n");
+                return resultDetails.toString();
+            } else {
+                resultDetails.append("RESULT: Content contains harmful elements.\n");
+                return resultDetails.toString();
+            }
+        } catch (Exception e) {
+            return "Error checking content safety: " + e.getMessage();
+        }
+    }
 }
