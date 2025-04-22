@@ -15,6 +15,22 @@
    mvn install
    ```
 
+## System Architecture
+
+This project demonstrates a web application that uses content safety checking before passing user prompts to a calculator service via Model Context Protocol (MCP).
+
+![System Architecture Diagram](src/main/resources/diagrams/plant.png)
+
+### How It Works
+
+1. **User Input**: The user enters a calculation prompt in the web interface
+2. **Content Safety Screening**: The prompt is analyzed by Azure Content Safety API
+3. **Safety Decision**:
+   - If the content is safe (severity < 2 in all categories), it proceeds to the calculator
+   - If the content is flagged as potentially harmful, the process stops and returns a warning
+4. **Calculator Integration**: Safe content is processed by LangChain4j, which communicates with the MCP calculator server
+5. **Response**: Results are displayed to the user along with the safety analysis
+
 ## Using Model Context Protocol (MCP) with Calculator Services
 
 This project demonstrates how to use Model Context Protocol (MCP) to call calculator MCP services from LangChain4j. The implementation uses a local MCP server running on port 8080 to provide calculator operations.

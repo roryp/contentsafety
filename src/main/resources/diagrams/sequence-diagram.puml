@@ -1,0 +1,59 @@
+@startuml Content Safety Calculator Flow
+!theme plain
+
+title Content Safety Calculator - Sequence Diagram
+
+actor User
+participant "Web App\n(ContentSafetyController)" as WebApp
+participant "Content Safety Service" as SafetyService
+participant "Azure Content Safety API" as AzureAPI
+participant "LangChain4j" as LangChain
+participant "MCP Client" as McpClient
+participant "MCP Calculator Server\n(Port 8080)" as McpServer
+participant "Calculator Service" as CalcService
+
+== User Interaction ==
+User -> WebApp: Enter calculation prompt
+activate WebApp
+WebApp -> WebApp: Create PromptRequest
+
+== Content Safety Check ==
+WebApp -> SafetyService: processPrompt(prompt)
+activate SafetyService
+SafetyService -> AzureAPI: analyzeText(prompt)
+activate AzureAPI
+AzureAPI --> SafetyService: AnalyzeTextResult
+deactivate AzureAPI
+
+SafetyService -> SafetyService: Check if content is safe\n(severity < 2 for all categories)
+
+== Processing Flow - Safe Content ==
+alt Content is safe
+    SafetyService -> LangChain: Pass prompt to Bot.chat()
+    activate LangChain
+    LangChain -> McpClient: Process prompt
+    activate McpClient
+    McpClient -> McpServer: Call appropriate calculator tool via SSE
+    activate McpServer
+    McpServer -> CalcService: Execute calculation\n(add, subtract, multiply, etc.)
+    activate CalcService
+    CalcService --> McpServer: Calculation result
+    deactivate CalcService
+    McpServer --> McpClient: Tool execution result
+    deactivate McpServer
+    McpClient --> LangChain: Tool result
+    deactivate McpClient
+    LangChain --> SafetyService: Bot response
+    deactivate LangChain
+    SafetyService --> WebApp: Return result map\n{isSafe: "true", botResponse: result, safetyResult: details}
+    deactivate SafetyService
+    WebApp --> User: Display calculation result and safety info
+    
+else Content is unsafe
+    SafetyService --> WebApp: Return result map\n{isSafe: "false", safetyResult: details}
+    WebApp --> User: Display safety warning\n(without calculation)
+end
+
+deactivate WebApp
+
+@enduml
