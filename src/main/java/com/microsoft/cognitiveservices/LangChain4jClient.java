@@ -38,7 +38,7 @@ public class LangChain4jClient {
 
                 McpTransport transport = new HttpMcpTransport.Builder()
                                 .sseUrl("http://localhost:8080/sse")
-                                .timeout(Duration.ofSeconds(60))
+                                .timeout(Duration.ofMinutes(60))
                                 .logRequests(true)
                                 .logResponses(true)
                                 .build();
