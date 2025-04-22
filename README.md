@@ -34,7 +34,35 @@ export CONTENT_SAFETY_KEY=<your_content_safety_key>
 
 ### Starting the Calculator MCP Server
 
-Before running the client, start the calculator MCP server in SSE mode on localhost:8080.
+The calculator server is located in the "calculator" directory of this project. Before running the client, you need to start the calculator MCP server in SSE mode on localhost:8080.
+
+#### Option 1: Running the Calculator Server via Command Line
+
+Navigate to the calculator directory and use Maven to run the server:
+
+```sh
+cd calculator
+mvn spring-boot:run
+```
+
+The calculator service will start on port 8080 and expose its tools via the SSE endpoint at `http://localhost:8080/sse`.
+
+#### Option 2: Running the Calculator Server via Docker
+
+The calculator directory includes a Dockerfile for containerized deployment. To run the server using Docker:
+
+1. Build the Docker image:
+   ```sh
+   cd calculator
+   docker build -t calculator-mcp-service .
+   ```
+
+2. Run the Docker container:
+   ```sh
+   docker run -p 8080:8080 calculator-mcp-service
+   ```
+
+This will start the calculator service in a container and expose it on port 8080 of your host machine.
 
 ## Project Description
 
