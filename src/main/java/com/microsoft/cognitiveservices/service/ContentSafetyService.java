@@ -35,14 +35,14 @@ public class ContentSafetyService {
                 .isGitHubModels(true)
                 .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName("gpt-4.1-nano")
-                .timeout(Duration.ofSeconds(60))
+                .timeout(Duration.ofMinutes(60))
                 .build();
 
         // Configure the MCP transport and client
         // Using port 8080 for MCP client connection, as that's where the MCP server is running
         McpTransport transport = new HttpMcpTransport.Builder()
                 .sseUrl("http://localhost:8080/sse")
-                .timeout(Duration.ofSeconds(60))
+                .timeout(Duration.ofMinutes(60))
                 .build();
 
         this.mcpClient = new DefaultMcpClient.Builder()

@@ -33,7 +33,7 @@ public class LangChain4jClient {
                                 .isGitHubModels(true)
                                 .apiKey(System.getenv("GITHUB_TOKEN"))
                                 .modelName("gpt-4.1-nano")
-                                .timeout(Duration.ofSeconds(60))
+                                .timeout(Duration.ofMinutes(60))
                                 .build();
 
                 McpTransport transport = new HttpMcpTransport.Builder()
