@@ -39,6 +39,22 @@ This project demonstrates a web application that uses content safety checking be
 
 This project demonstrates how to use Model Context Protocol (MCP) to call calculator MCP services from LangChain4j. The implementation uses a local MCP server running on port 8080 to provide calculator operations.
 
+### Setting up Azure Content Safety Service
+
+Before using the content safety features, you need to create an Azure Content Safety service resource:
+
+1. Sign in to the [Azure Portal](https://portal.azure.com)
+2. Click "Create a resource" and search for "Content Safety"
+3. Select "Content Safety" and click "Create"
+4. Enter a unique name for your resource
+5. Select your subscription and resource group (or create a new one)
+6. Choose a supported region (check [Region availability](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=cognitive-services) for details)
+7. Select an appropriate pricing tier
+8. Click "Create" to deploy the resource
+9. Once deployment is complete, click "Go to resource"
+10. In the left pane, under "Resource Management", select "Keys and Endpoint"
+11. Copy either of the keys and the endpoint URL for use in the next step
+
 ### Configuring Environment Variables
 
 Set the `GITHUB_TOKEN` environment variable for GitHub models authentication:
@@ -51,6 +67,8 @@ For content safety features, set:
 export CONTENT_SAFETY_ENDPOINT=<your_content_safety_endpoint>
 export CONTENT_SAFETY_KEY=<your_content_safety_key>
 ```
+
+These environment variables are used by the application to authenticate with the Azure Content Safety service. If these variables are not set, the application will use placeholder values for demonstration purposes, but the content safety features will not work properly.
 
 ### Starting the Calculator MCP Server
 
