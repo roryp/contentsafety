@@ -88,8 +88,18 @@ public class ContentSafetyService {
         if (safetyResult.contains("RESULT: Content is safe.")) {
             try {
                 String botResponse = bot.chat(prompt);
-                result.put("botResponse", botResponse);
-                result.put("isSafe", "true");
+                
+                // Also check the bot's response for safety
+                String botResponseSafetyResult = ContentSafetySampleCode.checkContentIsSafe(botResponse);
+                result.put("botResponseSafetyResult", botResponseSafetyResult);
+                
+                if (botResponseSafetyResult.contains("RESULT: Content is safe.")) {
+                    result.put("botResponse", botResponse);
+                    result.put("isSafe", "true");
+                } else {
+                    result.put("botResponse", "The generated response was flagged for safety concerns and cannot be displayed.");
+                    result.put("isSafe", "false");
+                }
             } catch (Exception e) {
                 result.put("error", "Error processing prompt: " + e.getMessage());
                 result.put("isSafe", "true"); // Content was safe, but processing failed

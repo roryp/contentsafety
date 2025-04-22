@@ -24,12 +24,16 @@ This project demonstrates a web application that uses content safety checking be
 ### How It Works
 
 1. **User Input**: The user enters a calculation prompt in the web interface
-2. **Content Safety Screening**: The prompt is analyzed by Azure Content Safety API
-3. **Safety Decision**:
+2. **Content Safety Screening (Input)**: The prompt is analyzed by Azure Content Safety API
+3. **Safety Decision (Input)**:
    - If the content is safe (severity < 2 in all categories), it proceeds to the calculator
    - If the content is flagged as potentially harmful, the process stops and returns a warning
 4. **Calculator Integration**: Safe content is processed by LangChain4j, which communicates with the MCP calculator server
-5. **Response**: Results are displayed to the user along with the safety analysis
+5. **Content Safety Screening (Output)**: The bot's response is analyzed by Azure Content Safety API
+6. **Safety Decision (Output)**:
+   - If the bot response is safe, it's shown to the user
+   - If the bot response is flagged as potentially harmful, it's replaced with a warning
+7. **Response**: Results (if safe) are displayed to the user along with both safety analyses
 
 ## Using Model Context Protocol (MCP) with Calculator Services
 
@@ -85,13 +89,19 @@ This will start the calculator service in a container and expose it on port 8080
 This project demonstrates the integration of Model Context Protocol (MCP) with LangChain4j to call calculator services. Key features include:
 
 - Using MCP to connect to a calculator service for basic math operations
-- Content safety checking on prompts before processing
+- Dual-layer content safety checking on both user prompts and bot responses
 - Integration with GitHub's gpt-4.1-nano model via LangChain4j
 - Using Server-Sent Events (SSE) for MCP transport
 
 ## Content Safety Integration
 
-The project includes content safety features to check prompts before processing, ensuring that only safe content is sent to the model. Prompts are analyzed for harmful content categories such as hate speech, violence, self-harm, and sexual content.
+The project includes comprehensive content safety features to ensure that both user inputs and system responses are free from harmful content:
+
+1. **Input Screening**: All user prompts are analyzed for harmful content categories such as hate speech, violence, self-harm, and sexual content before processing.
+
+2. **Output Screening**: Even when using potentially uncensored models, the system checks all generated responses through the same content safety filters before displaying them to the user.
+
+This dual-layer approach ensures that the system remains safe regardless of which AI model is being used, protecting users from both harmful inputs and potentially problematic AI-generated outputs.
 
 ## Web Client
 
@@ -100,8 +110,9 @@ The application includes a user-friendly web interface that allows users to inte
 ### Web Interface Features
 
 - Simple, intuitive form for entering calculation prompts
-- Content safety validation before processing user inputs
-- Real-time feedback on prompt safety
+- Dual-layer content safety validation (input and output)
+- Real-time feedback on prompt and response safety
+- Color-coded safety indicators for easy interpretation
 - Clean, responsive design that works on various devices
 - Example safe prompts to guide users
 
@@ -118,6 +129,10 @@ The application includes a user-friendly web interface that allows users to inte
 
 4. Click "Submit" to process your request
 
-5. View the results, which will include both content safety analysis and calculation results
+5. View the results, which will include:
+   - Content safety analysis of your prompt
+   - The calculated result (if prompt was safe)
+   - Content safety analysis of the bot's response
+   - Any safety warnings if either the input or output was flagged
 
-The web client automatically handles the content safety verification process before passing your prompt to the calculator MCP service, ensuring all interactions are safe and appropriate.
+The web client automatically handles both content safety verification processes, ensuring all interactions are safe and appropriate regardless of which AI model is being used.

@@ -4,56 +4,37 @@
 title Content Safety Calculator - Sequence Diagram
 
 actor User
-participant "Web App\n(ContentSafetyController)" as WebApp
+participant "Web App" as WebApp
 participant "Content Safety Service" as SafetyService
 participant "Azure Content Safety API" as AzureAPI
-participant "LangChain4j" as LangChain
-participant "MCP Client" as McpClient
-participant "MCP Calculator Server\n(Port 8080)" as McpServer
-participant "Calculator Service" as CalcService
+participant "Bot" as Bot
+participant "MCP Server" as McpServer
 
-== User Interaction ==
-User -> WebApp: Enter calculation prompt
-activate WebApp
-WebApp -> WebApp: Create PromptRequest
+== User Input and Safety Flow ==
+User -> WebApp: Submit calculation prompt
+WebApp -> SafetyService: Process prompt
+SafetyService -> AzureAPI: Check prompt safety
+AzureAPI --> SafetyService: Safety result
 
-== Content Safety Check ==
-WebApp -> SafetyService: processPrompt(prompt)
-activate SafetyService
-SafetyService -> AzureAPI: analyzeText(prompt)
-activate AzureAPI
-AzureAPI --> SafetyService: AnalyzeTextResult
-deactivate AzureAPI
-
-SafetyService -> SafetyService: Check if content is safe\n(severity < 2 for all categories)
-
-== Processing Flow - Safe Content ==
-alt Content is safe
-    SafetyService -> LangChain: Pass prompt to Bot.chat()
-    activate LangChain
-    LangChain -> McpClient: Process prompt
-    activate McpClient
-    McpClient -> McpServer: Call appropriate calculator tool via SSE
-    activate McpServer
-    McpServer -> CalcService: Execute calculation\n(add, subtract, multiply, etc.)
-    activate CalcService
-    CalcService --> McpServer: Calculation result
-    deactivate CalcService
-    McpServer --> McpClient: Tool execution result
-    deactivate McpServer
-    McpClient --> LangChain: Tool result
-    deactivate McpClient
-    LangChain --> SafetyService: Bot response
-    deactivate LangChain
-    SafetyService --> WebApp: Return result map\n{isSafe: "true", botResponse: result, safetyResult: details}
-    deactivate SafetyService
-    WebApp --> User: Display calculation result and safety info
+alt Prompt is safe
+    SafetyService -> Bot: Process safe prompt
+    Bot -> McpServer: Execute calculation
+    McpServer --> Bot: Calculation result
+    Bot --> SafetyService: Bot response
     
-else Content is unsafe
-    SafetyService --> WebApp: Return result map\n{isSafe: "false", safetyResult: details}
-    WebApp --> User: Display safety warning\n(without calculation)
+    SafetyService -> AzureAPI: Check response safety
+    AzureAPI --> SafetyService: Response safety result
+    
+    alt Response is safe
+        SafetyService --> WebApp: Safe prompt and safe response
+        WebApp --> User: Display calculation and safety info
+    else Response is unsafe
+        SafetyService --> WebApp: Safe prompt but unsafe response
+        WebApp --> User: Display warning
+    end
+else Prompt is unsafe
+    SafetyService --> WebApp: Unsafe prompt
+    WebApp --> User: Display warning
 end
-
-deactivate WebApp
 
 @enduml
