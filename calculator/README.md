@@ -122,7 +122,7 @@ The LangChain4j client is configured to use GitHub's phi-4 model with the follow
 ```java
 ChatLanguageModel model = GitHubChatModel.builder()
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .timeout(Duration.ofSeconds(60))
+    .timeout(Duration.ofMinutes(60))
     .modelName("phi-4")
     .logRequests(true)
     .logResponses(true)

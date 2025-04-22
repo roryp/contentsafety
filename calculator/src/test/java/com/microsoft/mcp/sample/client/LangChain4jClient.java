@@ -32,14 +32,14 @@ public class LangChain4jClient {
                 ChatLanguageModel model = OpenAiOfficialChatModel.builder()
                                 .isGitHubModels(true)
                                 .apiKey(System.getenv("GITHUB_TOKEN"))
-                                .timeout(Duration.ofSeconds(60))
+                                .timeout(Duration.ofMinutes(60))
                                 .modelName("gpt-4.1-nano")
-                                .timeout(Duration.ofSeconds(60))
+                                .timeout(Duration.ofMinutes(60))
                                 .build();
 
                 McpTransport transport = new HttpMcpTransport.Builder()
                                 .sseUrl("http://localhost:8080/sse")
-                                .timeout(Duration.ofSeconds(60))
+                                .timeout(Duration.ofMinutes(60))
                                 .logRequests(true)
                                 .logResponses(true)
                                 .build();
