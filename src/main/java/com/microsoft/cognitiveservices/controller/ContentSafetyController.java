@@ -47,4 +47,10 @@ public class ContentSafetyController {
         
         return "result";
     }
+    
+    @PostMapping("/process")
+    public String processPrompt(@ModelAttribute PromptRequest promptRequest, Model model) {
+        // Reuse the same logic as submitPrompt
+        return submitPrompt(promptRequest, model);
+    }
 }
