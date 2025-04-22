@@ -1,4 +1,4 @@
-package com.microsoft.cognitiveservices;
+package com.microsoft.mcp.sample.client;
 
 import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
@@ -32,6 +32,7 @@ public class LangChain4jClient {
                 ChatLanguageModel model = OpenAiOfficialChatModel.builder()
                                 .isGitHubModels(true)
                                 .apiKey(System.getenv("GITHUB_TOKEN"))
+                                .timeout(Duration.ofSeconds(60))
                                 .modelName("gpt-4.1-nano")
                                 .timeout(Duration.ofSeconds(60))
                                 .build();
@@ -56,26 +57,14 @@ public class LangChain4jClient {
                                 .toolProvider(toolProvider)
                                 .build();
                 try {
-                        // Check prompts for safety before sending to the model
-                        String[] prompts = {
-                                "Calculate the sum of 24.5 and 17.3 using the calculator service",
-                                "Go kill yourself!",
-                                "Show me the help for the calculator service"
-                        };
-                        
-                        for (String prompt : prompts) {
-                                // Check if the prompt is safe
-                                String safetyResult = ContentSafetySampleCode.checkContentIsSafe(prompt);
-                                System.out.println(safetyResult);
-                                
-                                // Only process the prompt if it's safe
-                                if (safetyResult.contains("RESULT: Content is safe.")) {
-                                        String response = bot.chat(prompt);
-                                        System.out.println("Bot response: " + response);
-                                } else {
-                                        System.out.println("The prompt was flagged as unsafe. Skipping processing.");
-                                }
-                        }
+                        String response = bot.chat("Calculate the sum of 24.5 and 17.3 using the calculator service");
+                        System.out.println(response);
+
+                        response = bot.chat("What's the square root of 144?");
+                        System.out.println(response);
+
+                        response = bot.chat("Show me the help for the calculator service");
+                        System.out.println(response);
                 } finally {
                         mcpClient.close();
                 }
