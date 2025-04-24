@@ -65,7 +65,7 @@ public class LangChain4jClient {
                         
                         for (String prompt : prompts) {
                                 // Check if the prompt is safe
-                                String safetyResult = ContentSafetySampleCode.checkContentIsSafe(prompt);
+                                String safetyResult = ContentSafetyUtil.checkContentIsSafe(prompt);
                                 System.out.println(safetyResult);
                                 
                                 // Only process the prompt if it's safe

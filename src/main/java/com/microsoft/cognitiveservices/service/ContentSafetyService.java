@@ -3,7 +3,7 @@ package com.microsoft.cognitiveservices.service;
 import org.springframework.stereotype.Service;
 
 import com.microsoft.cognitiveservices.Bot;
-import com.microsoft.cognitiveservices.ContentSafetySampleCode;
+import com.microsoft.cognitiveservices.ContentSafetyUtil;
 
 import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
@@ -81,7 +81,7 @@ public class ContentSafetyService {
         Map<String, String> result = new HashMap<>();
         
         // Check content safety
-        String safetyResult = ContentSafetySampleCode.checkContentIsSafe(prompt);
+        String safetyResult = ContentSafetyUtil.checkContentIsSafe(prompt);
         result.put("safetyResult", safetyResult);
         
         // Only process with the bot if content is safe
@@ -90,7 +90,7 @@ public class ContentSafetyService {
                 String botResponse = bot.chat(prompt);
                 
                 // Also check the bot's response for safety
-                String botResponseSafetyResult = ContentSafetySampleCode.checkContentIsSafe(botResponse);
+                String botResponseSafetyResult = ContentSafetyUtil.checkContentIsSafe(botResponse);
                 result.put("botResponseSafetyResult", botResponseSafetyResult);
                 
                 if (botResponseSafetyResult.contains("RESULT: Content is safe.")) {

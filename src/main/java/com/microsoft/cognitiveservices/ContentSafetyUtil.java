@@ -16,7 +16,7 @@ import java.util.List;
  * - Image analysis
  * - Handling different harmful categories
  */
-public class ContentSafetySampleCode {
+public class ContentSafetyUtil {
     // Sample texts to analyze
     private static final List<String> SAMPLE_TEXTS = Arrays.asList(
             "This is a simple text example",
