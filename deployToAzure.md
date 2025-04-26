@@ -14,38 +14,13 @@ This guide provides step-by-step instructions for deploying the Content Safety C
 
 First, update the `LangChain4jClient.java` and `ContentSafetyService.java` files to use environment variables for service discovery instead of hardcoded localhost URLs.
 
-In `LangChain4jClient.java`, replace the hardcoded SSE URL:
+# In both LangChain4jClient.java & ContentSafetyService.java
 
 ```java
-// Get SSE URL from environment variable or use default
 String sseUrl = System.getenv("CALCULATOR_SERVICE_URL");
 if (sseUrl == null || sseUrl.isEmpty()) {
-    sseUrl = "http://calculator:8080/sse";
+    sseUrl = "http://calculator-service:8080/sse";   // ← updated host
 }
-
-McpTransport transport = new HttpMcpTransport.Builder()
-        .sseUrl(sseUrl)
-        .timeout(Duration.ofMinutes(60))
-        .logRequests(true)
-        .logResponses(true)
-        .build();
-```
-
-And in `ContentSafetyService.java`, replace the hardcoded calculator service URL:
-
-```java
-// Get calculator service URL from environment variable or use default
-String calculatorServiceUrl = System.getenv("CALCULATOR_SERVICE_URL");
-if (calculatorServiceUrl == null || calculatorServiceUrl.isEmpty()) {
-    calculatorServiceUrl = "http://calculator:8080/sse"; // Docker container name as hostname
-}
-
-McpTransport transport = new HttpMcpTransport.Builder()
-        .sseUrl(calculatorServiceUrl)
-        .timeout(Duration.ofMinutes(60))
-        .logRequests(true)
-        .logResponses(true)
-        .build();
 ```
 
 ## Step 2: Create Dockerfile for Web Application
@@ -243,24 +218,12 @@ public class HealthController {
 
 ```bash
 # Configure scaling for calculator service
-az containerapp scale set \
+az containerapp update \
   --name calculator-service \
   --resource-group ContentSafetyGroup \
-  --min-replicas 1 \
-  --max-replicas 3 \
+  --min-replicas 1 --max-replicas 3 \
   --scale-rule-name http-scaling \
-  --scale-rule-type http \
   --scale-rule-http-concurrency 20
-
-# Configure scaling for web application
-az containerapp scale set \
-  --name contentsafety-app \
-  --resource-group ContentSafetyGroup \
-  --min-replicas 1 \
-  --max-replicas 5 \
-  --scale-rule-name http-scaling \
-  --scale-rule-type http \
-  --scale-rule-http-concurrency 50
 ```
 
 ## CI/CD Setup with GitHub Actions (Optional)
